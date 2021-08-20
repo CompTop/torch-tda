@@ -68,7 +68,7 @@ class RipsDiagram(Function):
             'cohom' = cohomology
     """
     @staticmethod
-    def forward(ctx, y, maxdim):
+    def forward(ctx, y, maxdim, *reduction_flags):
         # number of arguments should match the return of backward function
 
         ynp = y.detach().numpy()
@@ -76,7 +76,7 @@ class RipsDiagram(Function):
         rX = bats.enclosing_radius(bats.Matrix(DX))
         # maixmum complex dimension = maximum homology dimension + 1
         F, imap = bats.LightRipsFiltration_extension(bats.Matrix(DX), rX , maxdim+1)
-        R = bats.reduce(F, bats.F2())
+        R = bats.reduce(F, bats.F2(), *reduction_flags)
 
         # store device
         device = y.device
@@ -92,8 +92,7 @@ class RipsDiagram(Function):
         ctx.R = R
         ctx.filtration = F
         ctx.imap = imap
-        #print("in RipsDiagram.forward")
-        #print(dgms)
+        ctx.reduction_flags = reduction_flags
         return tuple(dgms)
 
     @staticmethod
@@ -119,4 +118,6 @@ class RipsDiagram(Function):
 
         # backward only to inputs of coordinates of points
         # grad_y should be timed together with the last layer
-        return grad_y.to(device), None
+        ret = [grad_y.to(device), None]
+        ret.extend([None for f in ctx.reduction_flags])
+        return tuple(ret)
