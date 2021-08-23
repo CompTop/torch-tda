@@ -20,7 +20,7 @@ setup(name='torch-tda',
       install_requires=[
         'numpy',
         'bats-tda',
-        'persim',
+        'persim>=0.3.1',
         'scipy'
       ],
       python_requires='>=3.7',

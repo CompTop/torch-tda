@@ -62,10 +62,7 @@ class RipsDiagram(Function):
     forward inputs:
         y - N x D torch.float tensor of coordinates
         maxdim - maximum homology dimension
-        alg - algorithm
-            'hom' = homology (default)
-            'hom2' = nz suppressing homology variant
-            'cohom' = cohomology
+        reduction_flags - optional reduction flags for BATS.
     """
     @staticmethod
     def forward(ctx, y, maxdim, *reduction_flags):
