@@ -52,7 +52,7 @@ class BottleneckDistance(Function):
         gd1 = torch.zeros(n1, 2)
 
 
-        gd0[i0, ctx.indmax] = d01[ctx.indmax] * grad_dist
-        gd1[i1, ctx.indmax] = -d01[ctx.indmax] * grad_dist
+        gd0[i0, ctx.indmax] = np.sign(d01[ctx.indmax]) * grad_dist
+        gd1[i1, ctx.indmax] = -np.sign(d01[ctx.indmax]) * grad_dist
 
         return gd0, gd1
