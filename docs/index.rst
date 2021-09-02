@@ -11,6 +11,7 @@ Welcome to torch-tda's documentation!
    :caption: Contents:
 
    examples/index
+   api
 
 
 
