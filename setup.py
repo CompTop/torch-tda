@@ -15,7 +15,7 @@ setup(name='torch-tda',
       author_email='bradnelson@uchicago.edu, yuanluo@uchicago.edu',
       url='https://github.com/CompTop/torch-tda',
       license='MIT',
-      packages=['torch_tda'],
+      packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
       include_package_data=True,
       install_requires=[
         'numpy',

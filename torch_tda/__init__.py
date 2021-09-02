@@ -1,1 +1,1 @@
-import torch_tda.nn
+from . import nn
