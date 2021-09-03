@@ -83,7 +83,7 @@ class RipsDiagram(Function):
         # save data coordinates for backward
         ctx.save_for_backward(ycpu)
         # return persistent diagrams with death and birth values
-        dgms = dgms_tensor_list(R, maxdim)
+        dgms, bdinds = dgms_tensor_list(R, maxdim)
 
 
         ctx.R = R

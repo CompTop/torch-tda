@@ -14,18 +14,23 @@ def dgms_tensor_list(ReducedCC, maxHomdim):
 
     -Outputs:
         dgms: a list of PD tensors
+        bdinds: indices
     """
     dgms = []
     bdinds = []
     for i in range(maxHomdim + 1):
         ps = ReducedCC.persistence_pairs(i)
         bd_pair = [[p.birth(), p.death()] for p in ps]
+        bd_inds = [[p.birth_ind(), p.death_ind() if p.death_ind() < 0xFFFFFFFF else -1] for p in ps]
 
         # convert to tensor
         bd_pair = torch.tensor(bd_pair, requires_grad = True)
+        bd_inds = torch.tensor(bd_inds, requires_grad = False, dtype=torch.long)
 
         # add it
         dgms.append(bd_pair)
+        bdinds.append(bd_inds)
 
-    return dgms
-    #return dgms, bdinds
+
+    # return dgms
+    return dgms, bdinds

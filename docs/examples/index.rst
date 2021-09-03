@@ -8,3 +8,4 @@ Examples
 
   rips_opt
   diagram_dist
+  levelset
