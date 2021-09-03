@@ -31,8 +31,8 @@ class SublevelsetPersistence(Function):
     def backward(ctx, *grad_dgm):
         device = grad_dgm[0].device
 
-        grad_dgm = [gd.detach().tolist() for gd in grad_dgm]
-        bdinds = [bd.detach().tolist() for bd in ctx.binds]
+        grad_dgm = [gd.detach().flatten().tolist() for gd in grad_dgm]
+        bdinds = [bd.detach().flatten().tolist() for bd in ctx.binds]
         grad_f = bats.lower_star_backwards(grad_dgm, bdinds, ctx.imap)
         grad_f = torch.tensor(grad_f, dtype=ctx.dtype)
 

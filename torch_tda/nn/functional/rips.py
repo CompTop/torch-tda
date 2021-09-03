@@ -18,7 +18,7 @@ def compute_y_gradient(X, F, R, imap, grad_dgms):
 
         for gd in grad_dgm:
             # non-zero gradient
-            if not torch.equal(gd, torch.tensor([0.,0.])):
+            if not torch.equal(gd, torch.tensor([0.,0.], dtype=torch.double)):
                 # find correponding critical simplex index in filtration
                 p = ps[ind_bar]
                 d = p.dim() # homology dimension

@@ -44,7 +44,7 @@ class WassersteinDistance(Function):
 
         # normalize
         ctx.offsets = ctx.offsets / np.linalg.norm(ctx.offsets, axis=1).reshape(-1,1)
-        ctx.offsets = torch.tensor(ctx.offsets, dtype=torch.float)
+        ctx.offsets = torch.tensor(ctx.offsets, dtype=torch.double)
         ctx.match0 = torch.tensor(ctx.match0, dtype=torch.long)
         ctx.match1 = torch.tensor(ctx.match1, dtype=torch.long)
 
@@ -53,8 +53,8 @@ class WassersteinDistance(Function):
     @staticmethod
     def backward(ctx, grad_dist):
 
-        gd0 = torch.zeros(ctx.n0, 2)
-        gd1 = torch.zeros(ctx.n1, 2)
+        gd0 = torch.zeros(ctx.n0, 2, dtype=torch.double)
+        gd1 = torch.zeros(ctx.n1, 2, dtype=torch.double)
 
         gd0[ctx.match0] = ctx.offsets[ctx.match0] * grad_dist
         gd1[ctx.match1] = -ctx.offsets[ctx.match1] * grad_dist

@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 def dgms_tensor_list(ReducedCC, maxHomdim):
     """
@@ -19,13 +20,14 @@ def dgms_tensor_list(ReducedCC, maxHomdim):
     dgms = []
     bdinds = []
     for i in range(maxHomdim + 1):
-        ps = ReducedCC.persistence_pairs(i)
-        bd_pair = [[p.birth(), p.death()] for p in ps]
-        bd_inds = [[p.birth_ind(), p.death_ind() if p.death_ind() < 0xFFFFFFFF else -1] for p in ps]
+        bd_pair, bd_inds = ReducedCC.persistence_pairs_vec(i)
+        bd_inds = np.array(bd_inds)
+        bd_pair = np.array(bd_pair)
+        bd_inds[bd_inds == 0xFFFFFFFFFFFFFFFF] = -1 # take care of bats.NO_IND
 
         # convert to tensor
-        bd_pair = torch.tensor(bd_pair, requires_grad = True)
-        bd_inds = torch.tensor(bd_inds, requires_grad = False, dtype=torch.long)
+        bd_pair = torch.tensor(bd_pair.reshape(-1,2), requires_grad = True)
+        bd_inds = torch.tensor(bd_inds.reshape(-1,2), requires_grad = False, dtype=torch.long)
 
         # add it
         dgms.append(bd_pair)
