@@ -5,7 +5,7 @@ import bats
 
 class SublevelsetPersistence(Function):
     """
-    Compute persistent homology of a sublevelset filtration defined on X
+    Compute persistent homology of a
 
     forward inputs:
         X - a bats SimplicialComplex or LightSimplicialComplex
@@ -31,16 +31,10 @@ class SublevelsetPersistence(Function):
     def backward(ctx, *grad_dgm):
         device = grad_dgm[0].device
 
-        grad_f = torch.zeros(ctx.shape, dtype=ctx.dtype)
-        # TODO: this is really slow
-        for dim, gdgm in enumerate(grad_dgm):
-            for i, gd in enumerate(gdgm):
-                grad_f[ctx.imap[dim][ctx.binds[dim][i,0]]] += gd[0]
-                if (not ctx.binds[dim][i][1] == -1):
-                    # print(ctx.binds[dim][i,1])
-                    grad_f[ctx.imap[dim+1][ctx.binds[dim][i,1]]] += gd[1]
-            # TODO, this probably needs to be unpacked due to duplicate indices
-            # grad_f[ctx.imap[dim][ctx.bdinds[dim][gdgm]]] += dgm
+        grad_dgm = [gd.detach().tolist() for gd in grad_dgm]
+        bdinds = [bd.detach().tolist() for bd in ctx.binds]
+        grad_f = bats.lower_star_backwards(grad_dgm, bdinds, ctx.imap)
+        grad_f = torch.tensor(grad_f, dtype=ctx.dtype)
 
         ret = [grad_f.to(device), None, None]
         ret.extend([None for f in ctx.reduction_flags])

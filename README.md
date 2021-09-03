@@ -18,7 +18,9 @@ conda create -n bats
 conda activate bats
 ```
 
-If you want the development version of BATS.py, install it from source.   Otherwise
+If you are installing `torch_tda` from the development version, please install the development version of BATS.py, install it from source.   
+
+Otherwise, you can use the latest release of BATS.py
 ```
 pip install bats-tda
 ```
