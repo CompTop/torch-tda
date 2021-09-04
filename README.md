@@ -10,6 +10,14 @@ with automatic differentiation.  It wraps functionality from
 
 The design is inspired by and draws from [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that `torch-tda` uses `bats` for faster topological computations, and the two packages have different feature sets.
 
+## Use
+
+Package installation provides a package under the `torch_tda` namespace.  Functionality is primarily under `torch_tda.nn`, which provides several PyTorch layers.
+
+```python
+import torch_tda
+```
+
 ## Installation
 
 First, it is recommended to set up a conda environment
