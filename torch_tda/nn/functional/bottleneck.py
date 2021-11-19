@@ -16,6 +16,7 @@ class BottleneckDistance(Function):
     """
     @staticmethod
     def forward(ctx, dgm0, dgm1):
+        ctx.dtype = dgm0.dtype
         d0 = dgm0.detach().numpy()
         d1 = dgm1.detach().numpy()
         n0 = len(dgm0)
@@ -33,12 +34,12 @@ class BottleneckDistance(Function):
         ctx.i0 = i0
         ctx.i1 = i1
 
-        d01 = torch.tensor(d0[i0] - d1[i1])
+        d01 = torch.tensor(d0[i0] - d1[i1], dtype=ctx.dtype)
         ctx.d01 = d01
         dist01 = np.linalg.norm(d0[i0] - d1[i1], np.inf)
         ctx.indmax = np.argmax(np.abs(d0[i0] - d1[i1]))
 
-        return torch.tensor(dist01)
+        return torch.tensor(dist01, dtype=ctx.dtype)
 
     @staticmethod
     def backward(ctx, grad_dist):
@@ -48,8 +49,8 @@ class BottleneckDistance(Function):
         i1 = ctx.i1
         d01 = ctx.d01
 
-        gd0 = torch.zeros(n0, 2)
-        gd1 = torch.zeros(n1, 2)
+        gd0 = torch.zeros(n0, 2, dtype=ctx.dtype)
+        gd1 = torch.zeros(n1, 2, dtype=ctx.dtype)
 
 
         gd0[i0, ctx.indmax] = np.sign(d01[ctx.indmax]) * grad_dist

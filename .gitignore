@@ -1,3 +1,5 @@
+*.ipynb
+
 # extra
 *.png
 scratch*
