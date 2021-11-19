@@ -1,4 +1,6 @@
+
 *.ipynb
+.DS_Store
 
 # extra
 *.png
