@@ -6,7 +6,18 @@ from .util import dgms_tensor_list
 
 def compute_y_gradient(X, F, R, imap, grad_dgms):
     '''
-    TODO: torch.norm(dx) might be zero
+    -Input: 
+        X: original data points
+        F: Filtration built on X
+        R: Reduced Chain Complex computed on F
+        imap: inverse map that maps the birth or death index of a persistence pair 
+            to the critical edge that creates or destroys it.
+        grad_dgms: gradient with respect to PDs that is accumulated from the last layer.
+
+    -Output: 
+        y_grad: gradient values that is to be updated to X.
+    
+    TODO: torch.norm(dx) might be zero??
     '''
     y_grad = torch.zeros_like(X)
     scplex = F.complex()
@@ -96,13 +107,13 @@ class RipsDiagram(Function):
     def backward(ctx, *grad_dgms):
         """
         In the backward pass we receive a Tensor containing the gradient of the loss
-        with respect to the output of this layer, and we need to compute the gradient of the loss
-        with respect to the input.
+        with respect to the output of this layer (gradient w.r.t. PDs), 
+        and we need to compute the gradient of the loss 
+        with respect to the input (y: data coordinates).
         """
 
         # find returned gradient, which is the same size as dgms in forward function
         grad_dgm = [gd.cpu() for gd in grad_dgms]
-
 
         # find the gradient on y with the same shape as y
         device = ctx.device
@@ -115,6 +126,7 @@ class RipsDiagram(Function):
 
         # backward only to inputs of coordinates of points
         # grad_y should be timed together with the last layer
-        ret = [grad_y.to(device), None]
+        ret = [grad_y.to(device), None] 
+        # 'None' since we need to match the forward function arguments
         ret.extend([None for f in ctx.reduction_flags])
         return tuple(ret)

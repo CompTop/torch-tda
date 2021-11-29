@@ -32,6 +32,7 @@ Otherwise, you can use the latest release of BATS.py
 ```
 pip install bats-tda
 ```
+**Attension**: please use Linux OS to install `bats-tda` for now and the support for Mac OS will come soon. 
 
 Now, you can setup with `setup.py`
 ```
@@ -40,7 +41,7 @@ python setup.py install
 
 ## Documentation
 
-You can generate documentation using Sphinx
+If you want to contribute to the documenation, you can add some jupyter notebooks to the `docs/examples` folder and then generate documentation using Sphinx
 ```
 cd docs
 pip install -r requirements.txt
