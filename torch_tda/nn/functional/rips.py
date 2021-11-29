@@ -17,21 +17,18 @@ def compute_y_gradient(X, F, R, imap, grad_dgms):
     -Output: 
         y_grad: gradient values that is to be updated to X.
     
-    TODO: torch.norm(dx) might be zero??
     '''
     y_grad = torch.zeros_like(X)
     scplex = F.complex()
 
-    for i in range(len(grad_dgms)):
-        grad_dgm = grad_dgms[i]
-        ind_bar = 0 # find non-zero gradient's index (bar index)
-        ps = R.persistence_pairs(i)
-
-        for gd in grad_dgm:
+    for i, grad_dgm in enumerate(grad_dgms):
+        ps = R.persistence_pairs(i) # persistence pair at dim i
+        
+        for ind, gd in enumerate(grad_dgm):
             # non-zero gradient
             if not torch.equal(gd, torch.tensor([0.,0.], dtype=torch.double)):
                 # find correponding critical simplex index in filtration
-                p = ps[ind_bar]
+                p = ps[ind]
                 d = p.dim() # homology dimension
 
                 # Birth
@@ -42,7 +39,10 @@ def compute_y_gradient(X, F, R, imap, grad_dgms):
 
                 # compute gradient on y now for birth index
                 dx = X[birth_vertex1] - X[birth_vertex2]
-                dx /= torch.norm(dx)
+                if torch.norm(dx) == 0:
+                    dx = 0
+                else:
+                    dx /= torch.norm(dx)
                 y_grad[birth_vertex1] = gd[0] * dx
                 y_grad[birth_vertex2] = - gd[0] * dx
 
@@ -62,8 +62,6 @@ def compute_y_gradient(X, F, R, imap, grad_dgms):
                     y_grad[death_vertex2] = - gd[1] * dx
 
 
-            ind_bar+=1
-
     return y_grad
 
 
@@ -71,7 +69,7 @@ class RipsDiagram(Function):
     """
     Compute Rips complex persistence using point coordinates
     forward inputs:
-        y - N x D torch.float tensor of coordinates
+        y - N x D torch.float tensor of coordinates (original data points)
         maxdim - maximum homology dimension
         reduction_flags - optional reduction flags for BATS.
     """
@@ -96,7 +94,7 @@ class RipsDiagram(Function):
         # return persistent diagrams with death and birth values
         dgms, bdinds = dgms_tensor_list(R, maxdim)
 
-
+        # use context variable `ctx` to store information that will be used for backward
         ctx.R = R
         ctx.filtration = F
         ctx.imap = imap
@@ -106,10 +104,11 @@ class RipsDiagram(Function):
     @staticmethod
     def backward(ctx, *grad_dgms):
         """
-        In the backward pass we receive a Tensor containing the gradient of the loss
-        with respect to the output of this layer (gradient w.r.t. PDs), 
-        and we need to compute the gradient of the loss 
-        with respect to the input (y: data coordinates).
+        Input: 
+            grad_dgms: a Tensor containing the gradient of the loss
+            with respect to the output of this layer (i.e., gradient w.r.t. PDs) 
+            and now we need to compute the gradient of the loss 
+            with respect to the first argument in input (original data points).
         """
 
         # find returned gradient, which is the same size as dgms in forward function
@@ -124,9 +123,9 @@ class RipsDiagram(Function):
 
         grad_y = compute_y_gradient(ycpu, F, R, imap, grad_dgms)
 
-        # backward only to inputs of coordinates of points
-        # grad_y should be timed together with the last layer
+        # backward only to the first argument in inputs: y 
         ret = [grad_y.to(device), None] 
-        # 'None' since we need to match the forward function arguments
+        # 'None' here means that we need to match the forward function arguments
+        # and `maxdim` and `*reduction_flags` cannot do gradient-descent
         ret.extend([None for f in ctx.reduction_flags])
         return tuple(ret)

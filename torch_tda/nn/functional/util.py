@@ -7,7 +7,11 @@ def dgms_tensor_list(ReducedCC, maxHomdim):
     Return a list of tensors, where each tensor is a Persistent Diagrams at a dimension
     Note:
     1. We also return zero length Bar for gradient computation consideration
-    2. The death index is 64-bit unsigned maximum integer and we set it to be -1
+    2. The everlasting persistence bars will have death index as 
+        64-bit unsigned maximum integer, and so we set it to be -1 here. 
+    3. The everlasting persistence bars will have death values as float('inf'), 
+        so you can use `p.death() == float('inf')` to find the it.
+        
     -Inputs:
         ReducedCC - Reduced Chain Complex in bats
         maxHomdim - maximum homology dimension
