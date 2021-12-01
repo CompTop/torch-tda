@@ -36,6 +36,9 @@ extensions = [
     'sphinx.ext.autosummary',
     'myst_parser',
     'nbsphinx',
+    'sphinx_copybutton',
+    'sphinx.ext.mathjax',
+    'IPython.sphinxext.ipython_console_highlighting',
 ]
 
 autodoc_default_options = {
