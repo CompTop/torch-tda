@@ -3,3 +3,5 @@ exhale==0.2.3
 sphinx-rtd-theme
 myst-parser
 nbsphinx
+sphinx_copybutton
+ipykernel
