@@ -1,6 +1,6 @@
 # Torch-TDA
 
-Automatic differentiation for topological data analysis.
+Automatic differentiation for topological data analysis. 
 
 This package provides utilities for using constructions in topological data analysis
 with automatic differentiation.  It wraps functionality from
@@ -9,6 +9,8 @@ with automatic differentiation.  It wraps functionality from
 * [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer) for polynomial features of barcodes
 
 The design is inspired by and draws from [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that `torch-tda` uses `bats` for faster topological computations, and the two packages have different feature sets.
+
+Here is the [documentation and examples](https://torch-tda.readthedocs.io/en/latest/). 
 
 ## Use
 
