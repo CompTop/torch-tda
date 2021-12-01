@@ -12,8 +12,15 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
 
+'''
+. - current path of the conf.py
+.. - parent path of the conf.py
+../.. - parent of the parent path, etc.
+'''
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.append(os.path.abspath('../..'))
+sys.path.append(os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
@@ -47,6 +54,8 @@ autodoc_default_options = {
     'undoc-members': True,
     'show-inheritance': True,
 }
+
+autodoc_mock_imports = ["torch"]
 
 autosummary_generate = True
 
