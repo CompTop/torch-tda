@@ -5,11 +5,11 @@ import torch.nn as nn
 class RipsLayer(nn.Module):
     """
     Define a Rips persistence layer that will use the Rips Diagram function
-    Parameters:
+    Inpute:
         maxdim : maximum homology dimension (default=0)
-        alg : algorithm
-            'hom' = homology (default)
-            'cohom' = cohomology
+        reduction_flags : PH computation options from bats
+            see details in: 
+            https://bats-tda.readthedocs.io/en/latest/tutorials/Rips.html#Algorithm-optimization  
     """
     def __init__(self, maxdim = 0, reduction_flags=()):
         super(RipsLayer, self).__init__()

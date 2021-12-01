@@ -1,3 +1,6 @@
+# Distance based on 2 Pesistence Diagrams:
+# 1. BottleneckDistance
+# 2. WassersteinDistance
 import torch.nn as nn
 from .functional import BottleneckDistance, WassersteinDistance
 from .poly_feat import remove_zero_bars
