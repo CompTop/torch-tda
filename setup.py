@@ -11,7 +11,7 @@
 # would reflect directly in your environment.
 
 from setuptools import setup
-
+import setuptools
 
 with open('README.md') as f:
     long_description = f.read()
@@ -28,7 +28,9 @@ setup(name='torch-tda',
         "Documentation": "https://torch-tda.readthedocs.io/en/latest/",
       },
       license='MIT',
-      packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
+      package_dir={"": "torch_tda"},
+      packages=setuptools.find_packages(where="torch_tda"),
+      # packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
       include_package_data=True,
       install_requires=[
         'numpy',
