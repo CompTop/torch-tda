@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+# Notes helpful for write setup.py
+# How to write a setup.py file
+# https://godatadriven.com/blog/a-practical-guide-to-using-setup-py/
+
+# Use `pip install -e .` to intall in editable mode
+# So you would use this when trying to install a package locally, 
+# most often in the case when you are developing it on your system. 
+# It will just link the package to the original location, 
+# basically meaning any changes to the original package 
+# would reflect directly in your environment.
 
 from setuptools import setup
 
@@ -14,6 +24,9 @@ setup(name='torch-tda',
       author='Brad Nelson, Yuan Luo',
       author_email='bradnelson@uchicago.edu, yuanluo@uchicago.edu',
       url='https://github.com/CompTop/torch-tda',
+      project_urls={
+        "Documentation": "https://torch-tda.readthedocs.io/en/latest/",
+      },
       license='MIT',
       packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
       include_package_data=True,

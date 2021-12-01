@@ -5,6 +5,9 @@ import torch.nn as nn
 from .functional import BottleneckDistance, WassersteinDistance
 from .poly_feat import remove_zero_bars
 
+# `from . import` is called Intra-package References 
+# see in https://docs.python.org/3/tutorial/modules.html#intra-package-references
+
 class BottleneckLayer(nn.Module):
     def __init__(self):
         super(BottleneckLayer, self).__init__()
