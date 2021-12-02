@@ -17,7 +17,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 setup(name='torch-tda',
-      version='0.0.0',
+      version='0.0.1',
       description='Automatic differentiation for topological data analysis',
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -28,9 +28,9 @@ setup(name='torch-tda',
         "Documentation": "https://torch-tda.readthedocs.io/en/latest/",
       },
       license='MIT',
-      package_dir={"": "torch_tda"},
-      packages=setuptools.find_packages(where="torch_tda"),
-      # packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
+      # package_dir={"": "torch_tda"},
+      # packages=setuptools.find_packages(where="torch_tda"),
+      packages=['torch_tda', 'torch_tda.nn', 'torch_tda.nn.functional'],
       include_package_data=True,
       install_requires=[
         'numpy',

@@ -5,7 +5,7 @@ import torch_tda
 import numpy as np
 import matplotlib.pyplot as plt
 import bats
-from tqdm import tqdm # see optimization process
+# from tqdm import tqdm # see optimization process
 
 # bats flags for reduction options
 flags = (bats.standard_reduction_flag(),bats.compression_flag())
@@ -23,9 +23,11 @@ f1 = torch_tda.nn.BarcodePolyFeature(1,2,0)
 optimizer = torch.optim.Adam([X], lr=1e-2)
 
 # run for 10 times
-for i in tqdm(range(10)):
+for i in range(10):
     optimizer.zero_grad()
     dgms = layer(X)
     loss = -f1(dgms) 
     loss.backward()
     optimizer.step()
+
+print("run succeffully!")
