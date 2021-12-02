@@ -36,7 +36,7 @@ Otherwise, you can use the latest release of [BATS.py](https://comptop.github.io
 ```
 pip install bats-tda
 ```
-Now, to use 'torch_tda', you will need Pytorch pre-installed and then 
+Now, to use `torch_tda`, you will need Pytorch pre-installed and then 
 ```
 pip install torch-tda
 ```
