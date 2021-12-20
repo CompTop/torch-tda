@@ -46,7 +46,10 @@ If you want to install from source, after cloning the repository, you can setup 
 ```
 python setup.py install
 ```
-**Attention!!!!:** Please do not install by `pip install torch-tda` in the cloned repository, becuase `pip` will probably install the older version from remote, see the [explanation](https://stackoverflow.com/questions/14617136/why-is-pip-installing-an-old-version-of-my-package).
+**Attention:** 
+- Please do not install by `pip install torch-tda` in the cloned repository, becuase `pip` will probably install the older version from remote, see the [explanation](https://stackoverflow.com/questions/14617136/why-is-pip-installing-an-old-version-of-my-package).
+
+- If you have installed an older version of `torch-tda` and want to update to the newest version, please uninstall it first by `pip uninstall torch-tda`. 
 
 ## Documentation
 
