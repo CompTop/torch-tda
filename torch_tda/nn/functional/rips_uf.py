@@ -2,7 +2,8 @@ import bats
 import torch
 import numpy as np
 from torch.autograd import Function
-import scipy.spatial.distance as distance
+# import scipy.spatial.distance as distance
+from sklearn.metrics.pairwise import pairwise_distances
 
 def compute_y_gradient(X, F, ps, imap, grad_dgms):
     '''
@@ -112,11 +113,12 @@ class Rips0Diagram(Function):
         y - N x D torch.float tensor of coordinates (original data points)
     """
     @staticmethod
-    def forward(ctx, y):
+    def forward(ctx, y, metric = 'euclidean'):
         # number of arguments should match the return of backward function
 
         ynp = y.detach().numpy()
-        DX = distance.squareform(distance.pdist(ynp))
+        # DX = distance.squareform(distance.pdist(ynp))
+        DX = pairwise_distances(ynp, metric=metric)
         rX = bats.enclosing_radius(bats.Matrix(DX))
         # maixmum complex dimension = maximum homology dimension + 1
         F, imap = bats.LightRipsFiltration_extension(bats.Matrix(DX), rX , 1)
@@ -165,4 +167,4 @@ class Rips0Diagram(Function):
         ret = grad_y.to(device)
         # 'None' here means that we need to match the forward function arguments
         # and `maxdim` and `*reduction_flags` cannot do gradient-descent
-        return ret
+        return tuple([ret, None])

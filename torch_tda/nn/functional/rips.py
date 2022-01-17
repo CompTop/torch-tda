@@ -200,18 +200,20 @@ class RipsDiagram(Function):
         maxdim - maximum homology dimension
         sparse - True if you want to use sparse Rips
         eps - approximation error bound of bottleneck distance for sparse Rips
+        metric - options supported by scikit-learn
+            https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise_distances.html
         reduction_flags - optional reduction flags for BATS.
     """
     @staticmethod
-    def forward(ctx, y, maxdim, sparse=False, eps=0.5, *reduction_flags):
+    def forward(ctx, y, maxdim, metric = 'euclidean', sparse=False, eps=0.5, *reduction_flags):
         # number of arguments should match the return of backward function
-
         ynp = y.detach().numpy()
         if sparse:
-            D = pairwise_distances(ynp, metric='euclidean')
+            D = pairwise_distances(ynp, metric=metric)
             DX, rX = sparse_pairwise_dist(D, eps, dense_output = False)
         else:
-            DX = distance.squareform(distance.pdist(ynp))
+            # DX = distance.squareform(distance.pdist(ynp))
+            DX = pairwise_distances(ynp, metric=metric)
             rX = bats.enclosing_radius(bats.Matrix(DX))
         
         # maixmum complex dimension = maximum homology dimension + 1
@@ -258,7 +260,7 @@ class RipsDiagram(Function):
         grad_y = compute_y_gradient(ycpu, F, R, imap, grad_dgms)
 
         # backward only to the first argument in inputs: y 
-        ret = [grad_y.to(device), None, None, None] 
+        ret = [grad_y.to(device), None, None, None, None] 
         # 'None' here means that we need to match the forward function arguments
         # and `maxdim` and `*reduction_flags` cannot do gradient-descent
         ret.extend([None for f in ctx.reduction_flags])
