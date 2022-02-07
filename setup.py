@@ -36,7 +36,8 @@ setup(name='torch-tda',
         'numpy',
         'bats-tda',
         'persim>=0.3.1',
-        'scipy'
+        'scipy',
+        'hera-tda>=0.0.1',
       ],
       python_requires='>=3.7',
       classifiers=[
