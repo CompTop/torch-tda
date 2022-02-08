@@ -4,7 +4,7 @@ import torch
 from torch.autograd import Function
 from persim import bottleneck
 import numpy as np
-from hera_tda.bottleneck import BottleneckDistance
+import hera_tda as hera
 
 class BottleneckDistanceHera(Function):
     """
@@ -24,7 +24,7 @@ class BottleneckDistanceHera(Function):
         n1 = len(dgm1)
         ctx.n1 = n1
 
-        dist, match = BottleneckDistance(d0, d1)
+        dist, match = hera.bottleneck.BottleneckDistance(d0, d1)
         i0, i1 = match
 
         # TODO check for -1 as index
