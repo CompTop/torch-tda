@@ -4,10 +4,10 @@
 # https://godatadriven.com/blog/a-practical-guide-to-using-setup-py/
 
 # Use `pip install -e .` to intall in editable mode
-# So you would use this when trying to install a package locally, 
-# most often in the case when you are developing it on your system. 
-# It will just link the package to the original location, 
-# basically meaning any changes to the original package 
+# So you would use this when trying to install a package locally,
+# most often in the case when you are developing it on your system.
+# It will just link the package to the original location,
+# basically meaning any changes to the original package
 # would reflect directly in your environment.
 
 from setuptools import setup
@@ -37,7 +37,7 @@ setup(name='torch-tda',
         'bats-tda',
         'persim>=0.3.1',
         'scipy',
-        'hera-tda>=0.0.1',
+        'hera-tda>=0.0.2',
       ],
       python_requires='>=3.7',
       classifiers=[
