@@ -7,5 +7,6 @@ Examples
   :maxdepth: 1
 
   rips_opt
-  diagram_dist
+  PD_opt
   levelset
+  distance_PD
