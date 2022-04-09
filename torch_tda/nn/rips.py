@@ -11,9 +11,10 @@ class RipsLayer(nn.Module):
             see details in:
             https://bats-tda.readthedocs.io/en/latest/tutorials/Rips.html#Algorithm-optimization
     """
-    def __init__(self, maxdim = 0, metric = 'euclidean', sparse = False, eps=0.5,  reduction_flags=()):
+    def __init__(self, maxdim = 0, degree = -1, metric = 'euclidean', sparse = False, eps=0.5,  reduction_flags=()):
         super(RipsLayer, self).__init__()
         self.maxdim = maxdim
+        self.degree = degree
         self.sparse = sparse
         self.eps = eps
         self.PD = RipsDiagram()
@@ -22,7 +23,7 @@ class RipsLayer(nn.Module):
 
     def forward(self, x):
         xnp = x.cpu().detach().numpy() # convert to numpy array
-        dgms = self.PD.apply(x, self.maxdim, self.metric , self.sparse, self.eps, *self.reduction_flags)
+        dgms = self.PD.apply(x, self.maxdim, self.degree, self.metric , self.sparse, self.eps, *self.reduction_flags)
         return dgms
 
 

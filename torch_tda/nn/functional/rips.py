@@ -198,6 +198,7 @@ class RipsDiagram(Function):
     forward inputs:
         y - N x D torch.float tensor of coordinates (original data points)
         maxdim - maximum homology dimension
+        degree - +1 Cohomology; -1 Homology
         sparse - True if you want to use sparse Rips
         eps - approximation error bound of bottleneck distance for sparse Rips
         metric - options supported by scikit-learn
@@ -205,7 +206,7 @@ class RipsDiagram(Function):
         reduction_flags - optional reduction flags for BATS.
     """
     @staticmethod
-    def forward(ctx, y, maxdim, metric = 'euclidean', sparse=False, eps=0.5, *reduction_flags):
+    def forward(ctx, y, maxdim, degree = -1, metric = 'euclidean', sparse=False, eps=0.5, *reduction_flags):
         # number of arguments should match the return of backward function
         ynp = y.detach().numpy()
         if sparse:
@@ -218,7 +219,9 @@ class RipsDiagram(Function):
         
         # maixmum complex dimension = maximum homology dimension + 1
         F, imap = bats.LightRipsFiltration_extension(bats.Matrix(DX), rX , maxdim+1)
-        R = bats.reduce(F, bats.F2(), *reduction_flags)
+        FVS = bats.FilteredF2DGVectorSpace(F, degree)
+        R = bats.ReducedFilteredF2DGVectorSpace(FVS, *reduction_flags)
+        # R = bats.reduce(F, bats.F2(), *reduction_flags)
 
         # store device
         device = y.device
@@ -260,7 +263,8 @@ class RipsDiagram(Function):
         grad_y = compute_y_gradient(ycpu, F, R, imap, grad_dgms)
 
         # backward only to the first argument in inputs: y 
-        ret = [grad_y.to(device), None, None, None, None] 
+        # the length return list should match the number of inputs
+        ret = [grad_y.to(device), None, None, None, None, None] 
         # 'None' here means that we need to match the forward function arguments
         # and `maxdim` and `*reduction_flags` cannot do gradient-descent
         ret.extend([None for f in ctx.reduction_flags])

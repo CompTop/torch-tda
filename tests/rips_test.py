@@ -8,14 +8,18 @@ import bats
 # from tqdm import tqdm # see optimization process
 
 # bats flags for reduction options
-flags = (bats.standard_reduction_flag(),bats.compression_flag())
-layer = torch_tda.nn.RipsLayer(maxdim = 1, reduction_flags=flags) 
+flags = (bats.standard_reduction_flag(), bats.clearing_flag())
+# We optimze H1 and H0 and using clearing with Cohomology by setting degree = +1
+layer = torch_tda.nn.RipsLayer(maxdim = 1, degree = +1 ,reduction_flags=flags) 
 
 # generate datasets
 n = 100
 np.random.seed(0)
 data = np.random.uniform(0,1,(n,2))
 X = torch.tensor(data, requires_grad=True)
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.scatter(data[:,0], data[:,1])
 
 # objective function
 f1 = torch_tda.nn.BarcodePolyFeature(1,2,0)
@@ -31,3 +35,7 @@ for i in range(10):
     optimizer.step()
 
 print("run succeffully!")
+
+plt.subplot(1, 2, 2)
+plt.scatter(X.detach().numpy()[:,0], X.detach().numpy()[:,1])
+plt.savefig('opt_result.pdf', dpi=200, bbox_inches='tight')
