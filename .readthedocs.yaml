@@ -4,13 +4,15 @@ build:
   os: "ubuntu-20.04"
   tools:
     python: "3.9"
+  apt_packages:
+    - libboost-all-dev # for hera-tda
 
 # Build from the docs/ directory with Sphinx
 sphinx:
   configuration: docs/conf.py
 #   fail_on_warning: true
 
-      
+
 # Explicitly set the version of Python and its requirements
 python:
   install:
