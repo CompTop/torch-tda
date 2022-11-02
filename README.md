@@ -1,6 +1,6 @@
 # Torch-TDA
 
-Automatic differentiation for topological data analysis. 
+A package used to do automatic differentiation in Pytorch for topological data analysis. 
 
 This package provides utilities for using constructions in topological data analysis
 with automatic differentiation.  It wraps functionality from
@@ -9,7 +9,7 @@ with automatic differentiation.  It wraps functionality from
 * [hera](https://bitbucket.org/grey_narn/hera/src/master/) a library for fast calculation of bottleneck distance and Wasserstein distance on persistence diagrams.
 * [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer) for polynomial features of barcodes.
 
-The design is inspired by and draws from [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that `torch-tda` uses `bats` for faster topological computations, and the two packages have different feature sets.
+The design is heavily inspired by [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that we uses `bats` for faster topological computations.
 
 Here is the [documentation and examples](https://torch-tda.readthedocs.io/en/latest/). 
 
