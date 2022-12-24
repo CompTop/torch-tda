@@ -29,7 +29,7 @@ def dgms_tensor_list(ReducedCC, maxHomdim):
         # also note that it includes zeros length ones
         bd_inds = np.array(bd_inds)
         bd_pair = np.array(bd_pair)
-        bd_inds[bd_inds == 0xFFFFFFFFFFFFFFFF] = -1 # take care of bats.NO_IND
+        bd_inds[bd_inds == 0xFFFFFFFFFFFFFFFF] = -1 # Infinite(essential) pairs' death index
 
         # convert to tensor
         bd_pair = torch.tensor(bd_pair.reshape(-1,2), requires_grad = True)
