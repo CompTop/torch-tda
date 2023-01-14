@@ -131,21 +131,20 @@ class BarcodePolyFeature(nn.Module):
     sum length^p * mean^q
     over lengths and means of barcode
     parameters:
-        dim - homology dimension to work over
         p - exponent for lengths
         q - exponent for means
         remove_zero = Flag to remove zero-length bars (default=True)
     """
-    def __init__(self, dim, p, q, remove_zero=True):
+    def __init__(self, p, q, remove_zero=True):
         super(BarcodePolyFeature, self).__init__()
-        self.dim = dim
+        # self.dim = dim
         self.p = p
         self.q = q
         self.remove_zero = remove_zero
 
-    def forward(self, dgms):
-        issublevel = True
-        dgm = dgms[self.dim]
+    def forward(self, dgm, issublevel = True):
+        # dgm: torch tensor of shape (n,2) 
+        # dgm = dgms[self.dim]
         if self.remove_zero:
             dgm = remove_zero_bars(dgm)
         lengths, means = get_barcode_lengths_means(dgm, issublevel)

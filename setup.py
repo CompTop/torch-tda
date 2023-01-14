@@ -11,18 +11,17 @@
 # would reflect directly in your environment.
 
 from setuptools import setup
-import setuptools
 
 with open('README.md') as f:
     long_description = f.read()
 
 setup(name='torch-tda',
-      version='0.0.1',
+      version='0.0.2',
       description='Automatic differentiation for topological data analysis',
       long_description=long_description,
       long_description_content_type="text/markdown",
       author='Brad Nelson, Yuan Luo',
-      author_email='bradnelson@uchicago.edu, yuanluo@uchicago.edu',
+      author_email='bradnelson@uchicago.edu, luoyuan9809@gmail.com',
       url='https://github.com/CompTop/torch-tda',
       project_urls={
         "Documentation": "https://torch-tda.readthedocs.io/en/latest/",

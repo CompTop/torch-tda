@@ -12,6 +12,17 @@ def RCC_to_persistence_vertex_indices(R, scplex, imap):
     imap (list of length complex's highest dimension): 
         inverse map that is able to map the index of simplex to its edge index 
 
+    Output:
+        - First the regular persistence pairs of dimension 0, with one vertex for birth and two for death; 
+        - then the other regular persistence pairs, grouped by dimension, with 2 vertices per extremity; 
+        - then the connected components, with one vertex each; 
+        - finally the other essential features, grouped by dimension, with 2 vertices for birth.
+
+        Return type: Tuple[
+        - numpy.array[int] of shape (n,3), 
+        - List[numpy.array[int] of shape (m,4)], where the i-th element is the array of persistence pairs at dimension i+1
+        - numpy.array[int] of shape (l,), 
+        - List[numpy.array[int] of shape (k,2)]
     '''        
     def find_vet_idx(a):
         """Find indices vertices of a given edge index, a of shape (1,)  """
@@ -62,7 +73,7 @@ def RCC_to_persistence_vertex_indices(R, scplex, imap):
 class RipsLayer(nn.Module):
     """
     Define a Rips persistence layer that will use the Rips Diagram function.
-    Here we return the all essential and regular persistence pairs
+    Here we return the all essential(infinite death) and regular(finite death) persistence pairs
         we leave users to decide if they want to use essential pairs or zero-length bars
         in practice   
     Input:
@@ -76,10 +87,14 @@ class RipsLayer(nn.Module):
             https://bats-tda.readthedocs.io/en/latest/tutorials/Rips.html#Algorithm-optimization
     
     Output:
-        dgms    : list of length `maxdim`, where each element is an numpy array of shape (n,2)
-                note: infinite death == float('inf')
-        bdinds  : list of length `maxdim`, where each element is an numpy array of shape (n,2)
-                note: infinite death index == -1
+        persistence_dgs: list (length 4) of persistence diagrams in each dimension. We separate them by dimension 
+        and regular/essential, which are 0-dim regular pairs, 1-dim regular pairs, 
+        0-dim essential pair(only one in the case Rips) and
+            Return type: List[
+            - tensor[float] of shape (n-1,2), where n is the number of points 
+            - List[tensor[float] of shape (m,2)]
+            - tensor[float] of shape (1,1) 
+            - List[tensor[float] of shape (k,)]
     """
     def __init__(self, maxdim = 0, degree = -1, metric = 'euclidean', sparse = False, eps=0.5,  reduction_flags=()):
         super(RipsLayer, self).__init__()
@@ -87,12 +102,10 @@ class RipsLayer(nn.Module):
         self.degree = degree
         self.sparse = sparse
         self.eps = eps
-        # self.PD = RipsDiagram()
         self.metric = metric
         self.reduction_flags = reduction_flags
 
     def forward(self, X):
-        # dgms = self.PD.apply(x, self.maxdim, self.degree, self.metric , self.sparse, self.eps, *self.reduction_flags)
         # change dgms to make it able auto-diff
         Xnp = X.cpu().detach().numpy() # convert to numpy array
         # Xnp.astype('double')

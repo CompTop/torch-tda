@@ -194,7 +194,7 @@ def sparse_pairwise_dist(D, eps = 0.15, dense_output=False):
 
 class RipsDiagram(Function):
     """
-    This can be uncessary because we can do auto-diff by computing Diagram direcely from input point set matrix
+    (Outdated) we can do auto-diff by computing Diagram direcely from input point set matrix
 
     Compute Rips complex persistence using point coordinates
     forward inputs:
