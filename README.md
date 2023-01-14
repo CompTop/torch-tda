@@ -42,6 +42,9 @@ Now, to use `torch_tda`, you will need Pytorch pre-installed and then
 pip install torch-tda
 ```
 
+### Hera
+If you want to compute bottleneck distance, you will need to install [hera](https://github.com/anigmetov/hera) by 1. following their installation description to build from source and install the Python binding  2. (Optional if you can put the Python package in the correct position) write a simple `setup.py` file to install the package into environment path. 
+
 ### Build from source
 If you want to install from source, after cloning the repository, you can setup with `setup.py`
 ```
