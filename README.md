@@ -9,9 +9,16 @@ with automatic differentiation.  It wraps functionality from
 * [hera](https://bitbucket.org/grey_narn/hera/src/master/) a library for fast calculation of bottleneck distance and Wasserstein distance on persistence diagrams.
 * [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer) for polynomial features of barcodes.
 
-The design is heavily inspired by [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that we uses `bats` for faster topological computations.
+The design is heavily inspired by [topologylayer](https://github.com/bruel-gabrielsson/TopologyLayer).  Key differences are that we use `bats` for faster topological computations.
 
 Here is the [documentation and examples](https://torch-tda.readthedocs.io/en/latest/). 
+## Reference
+If you want to reference this project, please consider referencing one of these two papers or both because it is a side-product of the two papers:
+
+- [Accelerating iterated persistent homology computations with warm starts](https://www.sciencedirect.com/science/article/pii/S0925772124000117)
+- [Topology-Preserving Dimensionality Reduction via Interleaving Optimization](https://arxiv.org/abs/2201.13012)
+
+
 
 ## Use
 
